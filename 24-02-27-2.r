@@ -2,12 +2,13 @@ library(ISLR)
 library(glmnet)
 library(dplyr)
 library(tidyr)
-Hitters <- na.omit(Hitters)
+library(MASS)
+Boston <- na.omit(Boston)
 
 # setup data, i.e., x and y variables
-x <- model.matrix(Salary ~ ., Hitters)[, -1]
-y <- Hitters %>%
-    select(Salary) %>%
+x <- model.matrix(medv ~ ., Boston)[, -1]
+y <- Boston %>%
+    dplyr::select(medv) %>%
     unlist() %>%
     as.numeric()
 
@@ -27,18 +28,19 @@ coef(ridge_mod)[, 60]
 ridge_mod$lambda[60]
 
 set.seed(1)
-train <- Hitters %>% sample_frac(0.5)
-test <- Hitters %>% setdiff(train)
-x_train <- model.matrix(Salary ~ ., train)[, -1]
-x_test <- model.matrix(Salary ~ ., test)[, -1]
+train <- Boston %>% sample_frac(0.5)
+test <- Boston %>% setdiff(train)
+x_train <- model.matrix(medv ~ ., train)[, -1]
+x_test <- model.matrix(medv ~ ., test)[, -1]
 y_train <- train %>%
-    select(Salary) %>%
+    dplyr::select(medv) %>%
     unlist() %>%
     as.numeric()
 y_test <- test %>%
-    select(Salary) %>%
+    dplyr::select(medv) %>%
     unlist() %>%
     as.numeric()
+x_train
 
 ridge_mod <- glmnet(x_train, y_train, alpha = 0, lambda = grid)
 ridge_pred <- predict(ridge_mod, s = 4, newx = x_test)
@@ -57,9 +59,9 @@ plot(ridge_mod, xvar = "lambda", label = TRUE)
 
 # Check with Least Square
 ridge_pred <- predict(ridge_mod, s = 0, newx = x_test)
-mean((ridge_pred - t_test)^2)
+mean((ridge_pred - y_test)^2)
 
-lm(Salary ~ ., data = train)
+lm(medv ~ ., data = train)
 predict(ridge_mod, s = 0, exact = TRUE, type = "coefficient")
 
 # The Lasso

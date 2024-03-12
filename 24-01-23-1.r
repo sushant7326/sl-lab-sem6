@@ -21,9 +21,9 @@ dim(Default_test)
 
 
 # Fit logistic regression model
-glm.logit <- glm(default ~ balance+income, data=Default_train, family=binomial(link="logit"))
-glm.probit <- glm(default ~ balance+income, data=Default_train, family=binomial(link="probit"))
-glm.logit1 <- glm(default ~ balance, data=Default_train, family=binomial(link="logit"))
+glm.logit <- glm(default ~ balance + income, data = Default_train, family = binomial(link = "logit"))
+glm.probit <- glm(default ~ balance + income, data = Default_train, family = binomial(link = "probit"))
+glm.logit1 <- glm(default ~ balance, data = Default_train, family = binomial(link = "logit"))
 summary(glm.logit)
 summary(glm.probit)
 summary(glm.logit1)
@@ -33,44 +33,44 @@ L1
 
 L0 <- logLik(glm.logit1)
 L0
-dev <- 2*(L1-L0)
+dev <- 2 * (L1 - L0)
 dev
-qchisq(0.95,1)
+qchisq(0.95, 1)
 # income+balance is significant than only balance
 
 
 
-glm.fit <- glm(default ~ student+balance+income, data=Default_train, family=binomial(link="logit"))
+glm.fit <- glm(default ~ student + balance + income, data = Default_train, family = binomial(link = "logit"))
 summary(glm.fit)
 
-glm.fit1 <- glm(default ~ student+balance, data=Default_train, family=binomial(link="logit"))
+glm.fit1 <- glm(default ~ student + balance, data = Default_train, family = binomial(link = "logit"))
 summary(glm.fit1)
 
 # Predict using Test Data Set
-pred <- predict(glm.fit1, Default_test, type="response")
+pred <- predict(glm.fit1, Default_test, type = "response")
 pred[1:5]
 # Classify the prediction in default = "Yes" or "No"
 pred_class <- ifelse(pred >= 0.5, "Yes", "No")
 pred_class
 
 # Create Confusion Matrix
-cm <- table(Obs = Default[-trn,]$default, Pred = pred_class)
-TP <- cm[2,2]
+cm <- table(Obs = Default[-trn, ]$default, Pred = pred_class)
+TP <- cm[2, 2]
 TP
-FP <- cm[1,2]
+FP <- cm[1, 2]
 FP
-TN <- cm[1,1]
-FN <- cm[2,1]
-sens <- TP/(TP+FN)
+TN <- cm[1, 1]
+FN <- cm[2, 1]
+sens <- TP / (TP + FN)
 sens
 
-spec <- TN/(TN+FP)
+spec <- TN / (TN + FP)
 spec
 
-f1 <- 2*TP/(2*TP + FP + FN)
+f1 <- 2 * TP / (2 * TP + FP + FN)
 f1
 # Test Accuracy
-mean(pred_class == Default[-trn,]$default)
+mean(pred_class == Default[-trn, ]$default)
 
 contrasts(Default$default)
 

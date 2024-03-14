@@ -1,0 +1,33 @@
+svmfit1
+> Accuracy(ypred1, testdat$y)
+[1] 0.8
+> Precision(ypred1, testdat$y)
+[1] 0.75
+> Recall(ypred1, testdat$y)
+[1] 0.9
+> F1_Score(ypred1, testdat$y)
+[1] 0.8181818
+> 
+
+
+svmfit1_again
+> Accuracy(ypred1_again, testdat$y)
+[1] 0.65
+> Precision(ypred1_again, testdat$y)
+[1] 0.6666667
+> Recall(ypred1_again, testdat$y)
+[1] 0.7272727
+> F1_Score(ypred1_again, testdat$y)
+[1] 0.6956522
+> 
+
+svmfit2
+> Accuracy(ypred2, testdat$y)
+[1] 0.7
+> Precision(ypred2, testdat$y)
+[1] 0.75
+> Recall(ypred2, testdat$y)
+[1] 0.75
+> F1_Score(ypred2, testdat$y)
+[1] 0.75
+> 

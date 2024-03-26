@@ -13,17 +13,29 @@ dim(Default)
 # Randomly divide into training and test data
 trn <- sample(dim(Default)[1], 8000)
 trn
-Default_train <- Default[trn, ]
-Default_test <- Default[-trn, ]
-Default_test <- Default_test[, -1]
-head(Default_test)
-dim(Default_test)
+default_train <- Default[trn, ]
+default_test <- Default[-trn, ]
+default_test <- default_test[, -1]
+head(default_test)
+dim(default_test)
 
 
 # Fit logistic regression model
-glm.logit <- glm(default ~ balance + income, data = Default_train, family = binomial(link = "logit"))
-glm.probit <- glm(default ~ balance + income, data = Default_train, family = binomial(link = "probit"))
-glm.logit1 <- glm(default ~ balance, data = Default_train, family = binomial(link = "logit"))
+glm.logit <- glm(
+  default ~ balance + income,
+  data = default_train,
+  family = binomial(link = "logit")
+)
+glm.probit <- glm(
+  default ~ balance + income,
+  data = default_train,
+  family = binomial(link = "probit")
+)
+glm.logit1 <- glm(
+  default ~ balance,
+  data = default_train,
+  family = binomial(link = "logit")
+)
 summary(glm.logit)
 summary(glm.probit)
 summary(glm.logit1)
@@ -40,21 +52,30 @@ qchisq(0.95, 1)
 
 
 
-glm.fit <- glm(default ~ student + balance + income, data = Default_train, family = binomial(link = "logit"))
+glm.fit <- glm(
+  default ~ student + balance + income,
+  data = default_train,
+  family = binomial(link = "logit")
+)
 summary(glm.fit)
 
-glm.fit1 <- glm(default ~ student + balance, data = Default_train, family = binomial(link = "logit"))
+glm.fit1 <- glm(
+  default ~ student + balance,
+  data = default_train,
+  family = binomial(link = "logit")
+)
 summary(glm.fit1)
 
 # Predict using Test Data Set
-pred <- predict(glm.fit1, Default_test, type = "response")
+pred <- predict(glm.fit1, default_test, type = "response")
 pred[1:5]
 # Classify the prediction in default = "Yes" or "No"
 pred_class <- ifelse(pred >= 0.5, "Yes", "No")
 pred_class
 
 # Create Confusion Matrix
-cm <- table(Obs = Default[-trn, ]$default, Pred = pred_class)
+cm <- table(Obs = Default[-trn, ]$default,
+            Pred = pred_class)
 TP <- cm[2, 2]
 TP
 FP <- cm[1, 2]
@@ -78,7 +99,7 @@ contrasts(Default$default)
 ?cv.glm
 
 # Number of values in the training data set with yes and no value
-table(Default_train$default)
+table(default_train$default)
 
 
 # ggplot power

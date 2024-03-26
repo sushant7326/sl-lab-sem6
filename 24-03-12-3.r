@@ -5,14 +5,26 @@ dataset <- as.data.frame(Boston)
 dataset
 
 library(caTools)
-split <- sample.split(dataset$medv, SplitRatio = 0.75)
-trainset <- subset(dataset, split == TRUE)
+split <- sample.split(
+  dataset$medv,
+  SplitRatio = 0.75
+)
+trainset <- subset(
+  dataset,
+  split == TRUE
+)
 testset <- subset(dataset, split == FALSE)
 trainset
 testset
 
 # Model Building
-svm.fit <- svm(medv ~ ., data = trainset, kernel = "linear", cost = 10, scale = FALSE)
+svm.fit <- svm(
+  medv ~ .,
+  data = trainset,
+  kernel = "linear",
+  cost = 10,
+  scale = FALSE
+)
 summary(svm.fit)
 
 # R^2 Value on trainset
@@ -28,7 +40,12 @@ MAPE(ypred, testset$medv)
 
 # Model after tuning
 set.seed(1)
-tune.out <- tune(svm, medv ~ ., data = trainset, kernel = "linear")
+tune.out <- tune(
+  svm,
+  medv ~ .,
+  data = trainset,
+  kernel = "linear"
+)
 summary(tune.out)
 bestmod <- tune.out$best.model
 summary(bestmod)

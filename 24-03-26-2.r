@@ -29,3 +29,23 @@ rpart.plot(tree.boston)
 ypred <- predict(tree.boston, test)
 ypred
 MAE(ypred, test$medv)
+MSE(ypred, test$medv)
+RMSE(ypred, test$medv)
+MAPE(ypred, test$medv)
+
+# Pruning
+plotcp(tree.boston)
+tree.boston$cptable
+index <- which.min(tree.boston$cptable[, "xerror"])
+cpopt <- tree.boston$cptable[index, "CP"]
+cpopt
+opttree.boston <- prune(tree.boston, cp = cpopt)
+rpart.plot(opttree.boston)
+
+# Metrics
+ypred1 <- predict(opttree.boston, test)
+ypred1
+MAE(ypred1, test$medv)
+MSE(ypred1, test$medv)
+RMSE(ypred1, test$medv)
+MAPE(ypred1, test$medv)
